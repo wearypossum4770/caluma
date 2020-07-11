@@ -110,7 +110,7 @@ class AnswerValidator:
         data = get_data_source_data(info, question.data_source)
         options = [d.slug for d in data]
 
-        if not isinstance(value, str) or value not in options:
+        if not (isinstance(value, str) and value in options):
             raise CustomValidationError(
                 f'Invalid value "{value}". '
                 f"Must be of type str and one of the options \"{', '.join(options)}\"",

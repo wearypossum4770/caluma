@@ -101,7 +101,7 @@ def test_complete_work_item_last(
     inp = {"input": {"id": work_item.pk}}
     result = admin_schema_executor(query, variables=inp)
 
-    assert not bool(result.errors) == success
+    assert bool(result.errors) != success
     if success:
         snapshot.assert_match(result.data)
 
@@ -164,7 +164,7 @@ def test_complete_workflow_form_work_item(
     inp = {"input": {"id": work_item.pk}}
     result = schema_executor(query, variables=inp)
 
-    assert not bool(result.errors) == success
+    assert bool(result.errors) != success
     if success:
         assert result.data["completeWorkItem"]["workItem"]["status"] == to_const(
             models.WorkItem.STATUS_COMPLETED
@@ -210,7 +210,7 @@ def test_complete_task_form_work_item(
     inp = {"input": {"id": work_item.pk}}
     result = schema_executor(query, variables=inp)
 
-    assert not bool(result.errors) == success
+    assert bool(result.errors) != success
     if success:
         assert result.data["completeWorkItem"]["workItem"]["status"] == to_const(
             models.WorkItem.STATUS_COMPLETED
@@ -601,7 +601,7 @@ def test_create_work_item(db, work_item, success, schema_executor):
     }
     result = schema_executor(query, variables=inp)
 
-    assert not bool(result.errors) == success
+    assert bool(result.errors) != success
     if success:
         pk = extract_global_id(result.data["createWorkItem"]["workItem"]["id"])
         new_work_item = models.WorkItem.objects.get(pk=pk)

@@ -180,14 +180,13 @@ class CaseSerializer(serializers.ModelSerializer):
         form = data.get("form")
         workflow = data["workflow"]
 
-        if form:
-            if (
-                not workflow.allow_all_forms
-                and not workflow.allow_forms.filter(pk=form.pk).exists()
-            ):
-                raise exceptions.ValidationError(
-                    f"Workflow {workflow.pk} does not allow to start case with form {form.pk}"
-                )
+        if form and (
+            not workflow.allow_all_forms
+            and not workflow.allow_forms.filter(pk=form.pk).exists()
+        ):
+            raise exceptions.ValidationError(
+                f"Workflow {workflow.pk} does not allow to start case with form {form.pk}"
+            )
 
         return super().validate(data)
 

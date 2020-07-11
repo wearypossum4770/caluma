@@ -85,7 +85,7 @@ def test_base_format_validators(
 
     result = schema_executor(query, variables=inp)
 
-    assert not bool(result.errors) == success
+    assert bool(result.errors) != success
     if success:
         snapshot.assert_match(result.data)
     if not success:

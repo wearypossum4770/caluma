@@ -146,7 +146,8 @@ def test_complex_document_query_performance(
     table_question = question_factory(type=Question.TYPE_TABLE)
     form_question_factory(question=table_question, form=form)
 
-    query = """
+    with django_assert_num_queries(8):
+        query = """
         query ($id: ID!) {
           allDocuments(id: $id) {
             edges {
@@ -261,7 +262,6 @@ def test_complex_document_query_performance(
         }
     """
 
-    with django_assert_num_queries(8):
         result = schema_executor(query, variables={"id": str(document.pk)})
     assert not result.errors
 
@@ -305,7 +305,7 @@ def test_query_all_documents_filter_answers_by_questions(
     answers = []
     questions = []
 
-    for i in range(3):
+    for _ in range(3):
         documents.append(document_factory())
         questions.append(question_factory())
         answers.append(answer_factory(document=documents[-1], question=questions[-1]))
@@ -734,7 +734,7 @@ def test_save_document_answer(
 
     result = schema_executor(query, variables=inp)
 
-    assert not bool(result.errors) == success
+    assert bool(result.errors) != success
     if success:
         snapshot.assert_match(result.data)
 

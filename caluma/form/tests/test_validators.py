@@ -26,8 +26,8 @@ def test_validate_hidden_required_field(
     form_question.question.save()
 
     document = document_factory(form=form_question.form)
-    error_msg = f"Questions {form_question.question.slug} are required but not provided"
     if should_throw:
+        error_msg = f"Questions {form_question.question.slug} are required but not provided"
         with pytest.raises(ValidationError, match=error_msg):
             DocumentValidator().validate(document, info)
     else:
@@ -77,7 +77,7 @@ def test_validate_dynamic_options(
         "caluma.data_source.tests.data_sources.MyDataSource",
         "caluma.data_source.tests.data_sources.MyOtherDataSource",
     ]
-    if question.type == Question.TYPE_DYNAMIC_MULTIPLE_CHOICE and not value == 23:
+    if question.type == Question.TYPE_DYNAMIC_MULTIPLE_CHOICE and value != 23:
         value = [value]
 
     document = document_factory(form=form_question.form)

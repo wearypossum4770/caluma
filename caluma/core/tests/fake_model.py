@@ -18,9 +18,7 @@ def define_fake_model(fields={}, model_base=models.Model, options={}):
     }
 
     attributes.update(fields)
-    model = type(name, (model_base,), attributes)
-
-    return model
+    return type(name, (model_base,), attributes)
 
 
 def get_fake_model(fields={}, model_base=models.Model, options={}):

@@ -31,4 +31,4 @@ def test_expired_cache(info):
     sleep(1.1)
     new_result = ds.get_data_uuid(info)
 
-    assert not cached_result == new_result
+    assert cached_result != new_result

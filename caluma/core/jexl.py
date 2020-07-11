@@ -60,10 +60,9 @@ class JEXL(pyjexl.JEXL):
     expr_cache = Cache()
 
     def parse(self, expression):
-        parsed_expression = self.expr_cache.get_or_set(
+        return self.expr_cache.get_or_set(
             expression, lambda: super(JEXL, self).parse(expression)
         )
-        return parsed_expression
 
     def analyze(self, expression, analyzer_class):
         # some common shortcuts, no need to invoke JEXL engine for real
@@ -71,8 +70,7 @@ class JEXL(pyjexl.JEXL):
 
     def validate(self, expression, ValidatingAnalyzerClass=ValidatingAnalyzer):
         try:
-            for res in self.analyze(expression, ValidatingAnalyzerClass):
-                yield res
+            yield from self.analyze(expression, ValidatingAnalyzerClass)
         except ParseError as err:
             yield str(err)
 

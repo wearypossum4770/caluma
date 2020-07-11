@@ -37,7 +37,7 @@ def test_answer_types(
     """
 
     result = schema_executor(query, variables={"id": global_id})
-    assert not result.errors == success
+    assert result.errors != success
     if success:
         assert result.data["node"]["__typename"] == expected_typename
 

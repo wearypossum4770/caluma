@@ -60,7 +60,7 @@ def test_authentication_invalid_provider(introspection, rf, requests_mock, setti
     if introspection:
         requests_mock.get(settings.OIDC_USERINFO_ENDPOINT, status_code=401)
         requests_mock.post(settings.OIDC_INTROSPECT_ENDPOINT, status_code=400)
-    elif not introspection:
+    else:
         settings.OIDC_INTROSPECT_ENDPOINT = None
 
     request = rf.get("/graphql", HTTP_AUTHORIZATION="Bearer Token")

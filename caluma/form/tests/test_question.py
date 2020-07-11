@@ -234,7 +234,7 @@ def test_save_question(db, snapshot, question, mutation, schema_executor, succes
     }
     result = schema_executor(query, variables=inp)
 
-    assert not bool(result.errors) == success
+    assert bool(result.errors) != success
     if success:
         snapshot.assert_match(result.data)
 
@@ -282,7 +282,7 @@ def test_save_text_question(db, question, schema_executor, success):
         )
     }
     result = schema_executor(query, variables=inp)
-    assert not bool(result.errors) == success
+    assert bool(result.errors) != success
     if success:
         assert result.data["saveTextQuestion"]["question"]["maxLength"] == 10
         if question.format_validators:
@@ -360,7 +360,7 @@ def test_save_float_question(db, snapshot, question, schema_executor, success):
         )
     }
     result = schema_executor(query, variables=inp)
-    assert not bool(result.errors) == success
+    assert bool(result.errors) != success
     if success:
         snapshot.assert_match(result.data)
 
@@ -398,7 +398,7 @@ def test_save_integer_question(db, snapshot, question, success, schema_executor)
         )
     }
     result = schema_executor(query, variables=inp)
-    assert not bool(result.errors) == success
+    assert bool(result.errors) != success
     if success:
         snapshot.assert_match(result.data)
 

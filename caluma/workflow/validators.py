@@ -18,10 +18,9 @@ class WorkItemValidator:
         if status != models.WorkItem.STATUS_READY:
             raise exceptions.ValidationError("Only ready work items can be completed.")
 
-        if child_case:
-            if child_case.status == models.Case.STATUS_RUNNING:
-                raise exceptions.ValidationError(
-                    "Work item can only be completed when child case is in a finish state."
-                )
+        if child_case and child_case.status == models.Case.STATUS_RUNNING:
+            raise exceptions.ValidationError(
+                "Work item can only be completed when child case is in a finish state."
+            )
 
         getattr(self, f"_validate_task_{task.type}")(task, case, document, info)

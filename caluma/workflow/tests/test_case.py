@@ -179,7 +179,7 @@ def test_cancel_case(db, snapshot, case, work_item, schema_executor, success):
     inp = {"input": {"id": case.pk}}
     result = schema_executor(query, variables=inp)
 
-    assert not bool(result.errors) == success
+    assert bool(result.errors) != success
     if success:
         snapshot.assert_match(result.data)
 
@@ -396,7 +396,7 @@ def test_order_by_question_answer_value(
 
     result = schema_executor(query, variables=inp)
 
-    assert not bool(result.errors) == success
+    assert bool(result.errors) != success
     if success:
         assert result.data["allCases"]["totalCount"] == 3
         snapshot.assert_match(result.data)

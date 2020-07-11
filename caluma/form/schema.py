@@ -750,10 +750,9 @@ class SaveDocumentAnswer(Mutation):
     def get_object(cls, root, info, queryset, **input):
         question_id = extract_global_id(input["question"])
         document_id = extract_global_id(input["document"])
-        instance = models.Answer.objects.filter(
+        return models.Answer.objects.filter(
             question=question_id, document=document_id
         ).first()
-        return instance
 
     class Meta:
         abstract = True

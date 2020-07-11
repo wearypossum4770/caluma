@@ -155,7 +155,7 @@ def test_add_workflow_flow(
             }
         },
     )
-    assert not bool(result.errors) == success
+    assert bool(result.errors) != success
     if success:
         snapshot.assert_match(result.data)
 

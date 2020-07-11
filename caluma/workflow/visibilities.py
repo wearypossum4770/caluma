@@ -16,10 +16,9 @@ class AddressedGroups(BaseVisibility):
 
     def get_visible_cases(self, node, queryset, info):
         work_items = self.get_visible_work_items(node, queryset, info)
-        cases = models.Case.objects.filter(
+        return models.Case.objects.filter(
             Q(work_items__in=work_items) | Q(parent_work_item__in=work_items)
         )
-        return cases
 
     def get_visible_documents(self, node, queryset, info):
         work_items = self.get_visible_work_items(node, queryset, info)

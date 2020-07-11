@@ -65,7 +65,9 @@ def test_query_all_forms(
 @pytest.mark.parametrize("language_code", ("en", "de"))
 @pytest.mark.parametrize("form__description", ("some description text", ""))
 def test_save_form(db, snapshot, form, settings, schema_executor, language_code):
-    query = """
+    inp = {"input": extract_serializer_input_fields(SaveFormSerializer, form)}
+    with translation.override(language_code):
+        query = """
         mutation SaveForm($input: SaveFormInput!) {
           saveForm(input: $input) {
             form {
@@ -79,8 +81,6 @@ def test_save_form(db, snapshot, form, settings, schema_executor, language_code)
         }
     """
 
-    inp = {"input": extract_serializer_input_fields(SaveFormSerializer, form)}
-    with translation.override(language_code):
         result = schema_executor(query, variables=inp)
 
     assert not result.errors
